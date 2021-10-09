@@ -4,13 +4,14 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import model.entities.Account;
+import model.entities.exceptions.BussinesException;
 
 public class Program {
 
 	public static void main(String[] args) {
-		
-		Scanner sc = new Scanner(System.in);
 		Locale.setDefault(Locale.US);
+		Scanner sc = new Scanner(System.in);
+		
 		
 		
 		System.out.println("Enter account data");
@@ -25,11 +26,20 @@ public class Program {
 		
 		Account account = new Account(number, cliente, saldo, limiteDeSaque);
 		
+	
+		System.out.println();
 		System.out.print("Entre com o valor de saque: ");
 		Double saque = sc.nextDouble();
-		System.out.print("Saldo atualizado: " + (saldo - saque) );
+
+		try {
+		account.saque(saque);
+		System.out.printf("Saldo atualizado: %.2f%n ", account.getSaldo() );
+		}
+		catch(BussinesException e){
+			System.out.println(e.getMessage());
+		}
 		
-		
+				
 		sc.close();
 	}
 

@@ -1,5 +1,7 @@
 package model.entities;
 
+import model.entities.exceptions.BussinesException;
+
 public class Account {
 
 	private Integer number;
@@ -41,16 +43,26 @@ public class Account {
 	public Double getLimiteDeSaque() {
 		return limiteDeSaque;
 	}
-
 	
 	public void deposito(Double quantidade) {
-		
+		saldo += quantidade;
 	}
 	
 	public void saque(Double quantidade) {
-		
+		validacaoDeSaque(quantidade);
+		saldo -= quantidade;
+		}
+	
+	private void validacaoDeSaque(Double quantidade) {
+		if (quantidade > getLimiteDeSaque()) {
+			throw new BussinesException("Erro de saque: A quantia excede o limite de saque.");
+		}
+		if(quantidade> getSaldo()) {
+			throw new BussinesException("Erro de saque: Saldo Insuficiente.");
+			
+		}
 	}
 	
 	
+	}
 	
-}
